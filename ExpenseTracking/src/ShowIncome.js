@@ -3,29 +3,35 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react
 import Realm from 'realm';
 import { IconButton } from 'react-native-paper';
 import { useRealm } from '@realm/react';
-import { Expense } from './schema';
+import { Income } from './schema';
 
-const ExpenseList = () => {
+const IncomeList = ({searchQuery}) => {
     const realm = useRealm();
-    const [expenses, setExpenses] = useState([]);
+    const [incomes, setIncomes] = useState([]);
 
     useEffect(() => {
-        const allExpenses = realm.objects('Expense').sorted('date', true);
-        setExpenses([...allExpenses]);
-    }, [realm]);
+        const allIncomes = realm.objects('Income').sorted('date', true);
+        if (searchQuery && searchQuery.trim() !== '') {
+            const filteredIncomes = allIncomes.filtered('note CONTAINS[c] $0 OR category CONTAINS[c] $0', searchQuery.trim());
+            setIncomes([...filteredIncomes]);
+        } else {
+            setIncomes([...allIncomes]);
+        }
+    }, [realm, searchQuery]);
 
 
     return (
         <View style={styles.container}>
             <FlatList
-                data={expenses}
+                data={incomes}
                 renderItem={({ item }) => (
                     <View style={styles.item}>
-                            <Text style={styles.text}>Date: {item.date.toString()}</Text>
-                            
+                        <Text style={styles.text}>Date: {item.date.toString()}</Text>
+
                         <Text style={styles.text}>Amount: {item.amount}</Text>
                         <Text style={styles.text}>Category: {item.category}</Text>
                         <Text style={styles.text}>Note: {item.note}</Text>
+
                     </View>
                 )}
                 keyExtractor={(item) => item.id.toString()}
@@ -40,7 +46,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         padding: 20,
     },
-    
+
     item: {
         backgroundColor: "#2196F3",
         padding: 20,
@@ -51,7 +57,6 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 
-  
     deleteButton: {
         position: 'absolute',
         right: 0,
@@ -59,4 +64,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ExpenseList;
+export default IncomeList;

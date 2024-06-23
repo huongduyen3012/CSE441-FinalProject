@@ -20,7 +20,8 @@ export default function Login({ navigation }) {
         setPhone('');
         setPassword('');
       } catch (e) {
-        console.error('Error saving user ID to AsyncStorage:', e);
+        Alert.alert('Login Failed', 'Please check phone number or password');
+        // console.error('Error saving user ID to AsyncStorage:', e);
       }
     } else {
       Alert.alert('Login Failed', 'Invalid phone number or password.');
@@ -35,7 +36,7 @@ export default function Login({ navigation }) {
             source={require('../img/logo.png')}
             alt="Logo" />
 
-          <Text style={styles.title}>Sign in to Expense Tracker</Text>
+          <Text style={styles.title}>Sign in to Expense Tracking</Text>
           <Text style={styles.subtitle}>
             Get access to your account and more
           </Text>
@@ -43,7 +44,7 @@ export default function Login({ navigation }) {
 
         <View style={styles.form}>
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>Phone</Text>
+            <Text style={styles.inputLabel}>Phone Number</Text>
 
             <TextInput autoCapitalize="none" autoCorrect={false} keyboardType="phone-pad"
               style={styles.inputControl} placeholder="0934324444"
@@ -53,7 +54,7 @@ export default function Login({ navigation }) {
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Password</Text>
 
-            <TextInput secureTextEntry={true} textContentType="password" style={styles.inputControl}
+            <TextInput secureTextEntry={true} placeholder="******" textContentType="password" style={styles.inputControl}
               value={password} onChangeText={(text) => setPassword(text)} />
           </View>
 
@@ -66,7 +67,7 @@ export default function Login({ navigation }) {
           </View>
 
           <View style={{ marginTop: 20 }}>
-            <Text style={{color:'#000', textAlign: 'center' }}>Don't have an account yet?</Text>
+            <Text style={{ color: '#000', textAlign: 'center' }}>Don't have an account yet?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('SignUp')} >
               <View style={[styles.btn, { backgroundColor: '#f0f0f0' }]}>
                 <Text style={[styles.btnText, { color: '#1E90FF' }]}>Sign up</Text>

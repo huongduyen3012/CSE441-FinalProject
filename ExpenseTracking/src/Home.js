@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import PieChart from "react-native-pie-chart";
-import { useQuery, useRealm } from "@realm/react";
+import { useQuery } from "@realm/react";
 
 const HomeScreen = ({ navigation }) => {
 

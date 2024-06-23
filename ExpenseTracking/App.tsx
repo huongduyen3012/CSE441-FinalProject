@@ -2,28 +2,27 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import Transactions from "./code/Transactions";
-import Home from "./code/Home";
-import Input from "./code/Input";
-import AddBudget from "./code/AddBudget";
-import Login from "./code/Login";
+import Transactions from "./src/Transactions";
+import Home from "./src/Home";
+import Input from "./src/Input";
+import AddBudget from "./src/AddBudget";
+import Login from "./src/Login";
 import { RealmProvider } from "@realm/react";
-import IncomeList from "./code/ShowIncome";
-import Logout from "./code/Account";
-import ExpenseList from "./code/ShowExpense";
-import ShowBudget from "./code/AllBudget";
-import { Expense } from "./code/schema";
-import { Income } from "./code/schema";
-import { Budget } from "./code/schema";
-import { User } from "./code/schema";
-import SignUp from "./code/SignUp";
+import IncomeList from "./src/ShowIncome";
+import Logout from "./src/Account";
+import ExpenseList from "./src/ShowExpense";
+import ShowBudget from "./src/AllBudget";
+import SignUp from "./src/SignUp";
+import { Expense, Income, Budget, User } from "./src/schema";
+import EditAccount from "./src/EditUser";
+
 const Stack = createStackNavigator();
 
 const AllSCreen = () => {
   return (
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="SignUp" component={SignUp} options={{ headerLeft: () => { return null } }} />
+      <Stack.Screen name="SignUp" component={SignUp} />
 
       <Stack.Screen name="TabNavigator" component={TabNavigator} />
 
@@ -52,17 +51,15 @@ const InputScreen = () => {
     <Stack.Navigator initialRouteName="Input" screenOptions={{ headerShown: false }} >
       <Stack.Screen name="Input" component={Input} />
 
-      <Stack.Screen name="Income List" component={IncomeList} options={{ headerShown: true }} />
-
-      <Stack.Screen name="Expense List" component={ExpenseList} options={{ headerShown: true }} />
-
     </Stack.Navigator>
   )
 }
 const AccountScreen = () => {
   return (
     <Stack.Navigator initialRouteName="Logout" screenOptions={{ headerShown: true }}>
-      <Stack.Screen name="User Account Information" component={Logout} options={{ headerLeft: () => { return null } }} />
+      <Stack.Screen name="Account Information" component={Logout} options={{ headerLeft: () => { return null } }} />
+ 
+        <Stack.Screen name="Edit User" component={EditAccount} />
     </Stack.Navigator>
   )
 }
@@ -81,9 +78,9 @@ const TabNavigator = () => {
 const App = () => {
   return (
     <RealmProvider schema={[User, Expense, Income, Budget]}>
-        <NavigationContainer>
-          <AllSCreen />
-        </NavigationContainer>
+      <NavigationContainer>
+        <AllSCreen />
+      </NavigationContainer>
     </RealmProvider>
   )
 }

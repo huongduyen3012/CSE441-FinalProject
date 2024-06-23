@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import {useNavigation } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { TextInput, Button, List } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 import { useRealm } from "@realm/react";
 import uuid from 'react-native-uuid';
 
@@ -56,12 +55,13 @@ const AddBudget = () => {
             Alert.alert('Error', 'Please fill in all fields.');
             return;
         }
+        const amount = parseFloat(budget.firstAmount);
 
         realm.write(() => {
             realm.create('Budget', {
                 id: uuid.v4(),
-                firstAmount: parseFloat(budget.firstAmount),
-                remainingAmount: parseFloat(budget.firstAmount),
+                firstAmount: amount,
+                remainingAmount: amount,
                 date: budget.date,
                 note: budget.note,
                 category: budget.category,
@@ -69,7 +69,8 @@ const AddBudget = () => {
         })
 
         console.log('Add expense successfully');
-        Alert.alert('Successfully')
+        Alert.alert('Successfully');
+        
         setBudget({
             id: '',
             firstAmount: '',

@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     },
 
     //HomeScreen
-    
+
 });
 
 export default styles;

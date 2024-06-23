@@ -6,13 +6,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInput } from "react-native-gesture-handler";
 import styles from "../style";
 
-const Logout = ({ navigation }) => {
+const EditAccount = ({ navigation }) => {
     const realm = useRealm();
     const [userId, setUserId] = useState(null);
     const [user, setUser] = useState({
         name: '',
         phone: '',
-        password: ''
+        password: '', 
+        createdAt: '',
     });
 
 
@@ -20,21 +21,13 @@ const Logout = ({ navigation }) => {
         const userData = await AsyncStorage.getItem('userData');
         if (userData) {
             const parsedUserData = JSON.parse(userData);
+            parsedUserData.createdAt = new Date(parsedUserData.createdAt).toDateString();
             setUser(parsedUserData);
             setUserId(parsedUserData.userId);
         } else {
             console.log('No user data found');
         }
 
-    };
-
-    const handleLogout = async () => {
-        try {
-            await AsyncStorage.removeItem('userData');
-            navigation.navigate('Login');
-        } catch (e) {
-            console.error('Failed to logout:', e);
-        }
     };
 
     useEffect(() => {
@@ -49,10 +42,13 @@ const Logout = ({ navigation }) => {
                     userToUpdate.name = user.name;
                     userToUpdate.phone = user.phone;
                     userToUpdate.password = user.password;
+                    userToUpdate.createdAt = user.createdAt;
                     userToUpdate.updatedAt = new Date();
                 });
                 Alert.alert('Update Successful');
                 AsyncStorage.setItem('userData', JSON.stringify(user));
+                navigation.goBack();
+
             }
         }
     }
@@ -75,6 +71,11 @@ const Logout = ({ navigation }) => {
                             <TextInput style={styles.inputControl} value={user.password} onChangeText={(text) => setUser({ ...user, password: text })} />
                         </View>
 
+                        <View style={styles.input}>
+                            <Text style={styles.inputLabel}>Created At</Text>
+                            <TextInput style={[styles.inputControl, {backgroundColor: '#f0f0f0'}]} value={user.createdAt} editable={false} />
+                        </View>
+
                         <View style={styles.formAction}>
                             <TouchableOpacity onPress={updateProfile} >
                                 <View style={styles.btn}>
@@ -87,14 +88,8 @@ const Logout = ({ navigation }) => {
             ) : (
                 <Text>Loading...</Text>
             )}
-
-            <TouchableOpacity onPress={handleLogout} style={{ marginTop: 20 }} >
-                <View style={[styles.btn, { backgroundColor: '#f0f0f0' }]}>
-                    <Text style={[styles.btnText, { color: '#1E90FF' }]}>Log out</Text>
-                </View>
-            </TouchableOpacity>
         </View>
     )
 }
 
-export default Logout;
+export default EditAccount;

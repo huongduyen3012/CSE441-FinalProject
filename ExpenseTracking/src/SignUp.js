@@ -54,9 +54,9 @@ const SignUp = () => {
                     source={require('../img/logo.png')}
                     alt="Logo" />
 
-                <Text style={styles.title}>Sign up to Expense Tracker</Text>
+                <Text style={styles.title}>Sign up to Expense Tracking</Text>
                 <Text style={styles.subtitle}>
-                    Create yout account and explore
+                    Create your account and explore
                 </Text>
             </View>
             <View style={styles.form}>
